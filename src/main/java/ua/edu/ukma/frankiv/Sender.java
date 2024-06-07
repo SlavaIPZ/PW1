@@ -5,13 +5,11 @@ import java.nio.ByteOrder;
 import java.util.zip.CRC32;
 
 public class Sender {
-    public Packet sendMessage(byte[] messageBytes, String key) throws Exception {
-        Message message = new Message(messageBytes);
-
-        byte[] encryptedMessage = message.encryptMessage(key);
-
-        ByteBuffer packetBuffer = ByteBuffer.allocate(16 + encryptedMessage.length + 2).order(ByteOrder.BIG_ENDIAN);
-        packetBuffer.put((byte) 0x13); // bMagic
+    public Packet sendMessage(String message) throws Exception {
+        Message msg = new Message(2, 5, message);
+        byte[] encryptedMessage = msg.messageToBytes();
+        ByteBuffer packetBuffer = ByteBuffer.allocate(16 + encryptedMessage.length + 2);
+        packetBuffer.put((byte) 0xD); // bMagic
         packetBuffer.put((byte) 0x01); // bSrc
         packetBuffer.putLong(1L); // bPktId
         packetBuffer.putInt(encryptedMessage.length); // wLen

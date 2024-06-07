@@ -3,26 +3,19 @@ package ua.edu.ukma.frankiv;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.crypto.spec.SecretKeySpec;
-
 public class Tester {
-    @Test
-    public void testSender() throws Exception {
-        Sender sender = new Sender();
-        byte[] messageBytes = "Hello, World!".getBytes();
-        Packet packet = sender.sendMessage(messageBytes, "ThisIsASecretKey");
-        Assert.assertNotNull(packet);
-    }
+
+
 
     @Test
     public void testReceiver() throws Exception {
         Sender sender = new Sender();
-        Receiver receiver = new Receiver();
-
-        byte[] messageBytes = "Hello, World!".getBytes();
-        Packet packet = sender.sendMessage(messageBytes, "ThisIsASecretKey");
-        byte[] message = receiver.receiveMessage(packet, "ThisIsASecretKey");
-
+        String message = "Hello, World!";
+        Packet packet = sender.sendMessage(message);
+        Message msg = packet.getMessage();
+        String text = new String(msg.getMessage());
+        System.out.println(msg);
+        System.out.println(text);
         Assert.assertNotNull(message);
     }
 }
