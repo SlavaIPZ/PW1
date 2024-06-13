@@ -11,7 +11,7 @@ public class Tester {
     public void testReceiver() throws Exception {
         Sender sender = new Sender();
         String message = "Hello, World!";
-        Packet packet = sender.sendMessage(message);
+        Packet packet = sender.sendMessage(1,2,message);
         Message msg = packet.getMessage();
         String text = new String(msg.getMessage());
         System.out.println(msg);

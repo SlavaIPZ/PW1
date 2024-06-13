@@ -46,20 +46,26 @@ public class Message {
     }
 
     public byte[] encryptMessage() throws Exception {
-        System.out.println("Enc"+Arrays.toString(message));
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         return cipher.doFinal(message);
     }
 
 
     public byte[] decryptMessage(byte[] encMessage) throws Exception {
-        System.out.println("Idi nahyuyi"+Arrays.toString(encMessage));
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
         return cipher.doFinal(encMessage);
     }
 
     public byte[] getMessage() {
         return message;
+    }
+
+    public int getcType() {
+        return cType;
+    }
+
+    public int getbUserId() {
+        return bUserId;
     }
 
     @Override

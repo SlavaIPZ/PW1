@@ -5,8 +5,12 @@ import java.nio.ByteOrder;
 import java.util.zip.CRC32;
 
 public class Sender {
-    public Packet sendMessage(String message) throws Exception {
-        Message msg = new Message(2, 5, message);
+    public Packet sendMessage(int cType,int bUserID,String message) throws Exception {
+        return new Packet(sendMessageBytes(cType, bUserID, message));
+    }
+
+    public byte[] sendMessageBytes(int cType,int bUserID,String message) throws Exception {
+        Message msg = new Message(cType, bUserID, message);
         byte[] encryptedMessage = msg.messageToBytes();
         ByteBuffer packetBuffer = ByteBuffer.allocate(16 + encryptedMessage.length + 2);
         packetBuffer.put((byte) 0xD); // bMagic
@@ -19,8 +23,8 @@ public class Sender {
         packetBuffer.put(encryptedMessage); // bMsq
         crc.reset();
         crc.update(encryptedMessage);
-        packetBuffer.putShort((short) crc.getValue()); // wCrc16Msq
+        packetBuffer.putShort((short) crc.getValue());
 
-        return new Packet(packetBuffer.array());
+        return packetBuffer.array();
     }
 }

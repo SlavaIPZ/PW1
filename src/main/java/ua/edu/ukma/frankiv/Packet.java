@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.zip.CRC32;
 
 public class Packet {
+    static final int HEADER_LENGTH = 16;
+
     private static byte bMagic;
     private byte bSrc;
     private long bPktId;
@@ -14,6 +16,16 @@ public class Packet {
     private short wCrc16;
     private byte[] bMsq;
     private short wCrc16Msq;
+
+    public static int readLength(byte[] packet) {
+        ByteBuffer wrapped = ByteBuffer.wrap(packet);
+        byte bMagic = wrapped.get();
+        byte bSrc = wrapped.get();
+        long bPktId = wrapped.getLong();
+        int wLen = wrapped.getInt();
+
+        return wLen;
+    }
 
     public Packet(byte[] packet) {
         ByteBuffer wrapped = ByteBuffer.wrap(packet);
